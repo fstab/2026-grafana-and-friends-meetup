@@ -1,3 +1,13 @@
+injector:
+  webhook:
+    enable: true
+    port: 8443
+    cert_path: /etc/webhook/certs/tls.crt
+    key_path: /etc/webhook/certs/tls.key
+  instrument:
+    - k8s_namespace: default
+  sdk_package_version: v0.0.4
+  host_mount_path: /var/lib/beyla/instrumentation
 discovery:
   # min_process_age: 15s
   instrument:
