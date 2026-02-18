@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grot-db
+  labels:
+    app: grot-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grot-db
+  template:
+    metadata:
+      labels:
+        app: grot-db
+    spec:
+      containers:
+      - name: grot-db
+        image: fstab/2026-grafana-and-friends-munich_grot-db
+        imagePullPolicy: Always
+        env:
+        - name: MYSQL_HOST
+          value: mysql
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grot-db
+spec:
+  selector:
+    app: grot-db
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
