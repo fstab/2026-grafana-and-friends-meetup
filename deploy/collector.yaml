@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: collector
+  labels:
+    app: collector
+spec:
+  selector:
+    matchLabels:
+      app: collector
+  template:
+    metadata:
+      labels:
+        app: collector
+    spec:
+      containers:
+        - name: collector
+          image: grafana/alloy:v1.13.2
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /config
+              name: collector-config
+          ports:
+          - containerPort: 4317
+            hostPort: 4317
+          - containerPort: 4318
+            hostPort: 4318
+          command: ["alloy", "otel", "--config=/config/collector-config.yaml"]
+      volumes:
+        - name: collector-config
+          configMap:
+            name: collector-config
