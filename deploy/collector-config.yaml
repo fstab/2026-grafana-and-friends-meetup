@@ -18,7 +18,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlphttp/traces, debug]
+      exporters: [otlphttp/traces]
     metrics:
       receivers: [otlp]
       exporters: [otlphttp/metrics, debug]

@@ -8,7 +8,7 @@ attributes:
     enable: true
 otel_metrics_export:
   features:
-    - application
+    # - application
     - application_span
     - application_service_graph
     - application_process

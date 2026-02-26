@@ -23,6 +23,7 @@ fi
 ./scripts/deploy-tempo.sh
 ./scripts/deploy-prometheus.sh
 ./scripts/deploy-grafana.sh
+./scripts/deploy-collector.sh
 ./scripts/deploy-demo-services.sh
 ./scripts/deploy-load-generator.sh
 ./scripts/deploy-beyla.sh

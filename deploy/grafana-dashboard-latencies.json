@@ -208,7 +208,7 @@
           "refId": "A"
         }
       ],
-      "title": "Beyla",
+      "title": "OpenTelemetry eBPF instrumentation",
       "type": "timeseries"
     },
     {
@@ -297,7 +297,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds{job=~\".*name-generator.*\"}[$__rate_interval])) by (le, http_route))",
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_duration_seconds{job=~\".*grot-db\"}[5m])) by (le, http_route))",
           "legendFormat": "95% latency for {{http_route}}",
           "range": true,
           "refId": "A"

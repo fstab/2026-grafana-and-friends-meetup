@@ -14,6 +14,13 @@ spec:
       labels:
         app: grot-db
     spec:
+      initContainers:
+      - name: otel-agent
+        image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:latest
+        command: ["cp", "/javaagent.jar", "/otel/opentelemetry-javaagent.jar"]
+        volumeMounts:
+        - name: otel-agent
+          mountPath: /otel
       containers:
       - name: grot-db
         image: fstab/2026-grafana-and-friends-munich_grot-db
@@ -21,8 +28,28 @@ spec:
         env:
         - name: MYSQL_HOST
           value: mysql
+        - name: JAVA_TOOL_OPTIONS
+          value: "-javaagent:/otel/opentelemetry-javaagent.jar"
+        - name: OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION
+          value: base2_exponential_bucket_histogram
+        - name: OTEL_SERVICE_NAME
+          value: grot-db
+        - name: OTEL_EBPF_KUBE_CLUSTER_NAME
+          value: "minikube"
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://$(NODE_IP):4318
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: otel-agent
+          mountPath: /otel
+      volumes:
+      - name: otel-agent
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
