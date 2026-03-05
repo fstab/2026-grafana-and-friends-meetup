@@ -36,6 +36,8 @@ spec:
           value: grot-db
         - name: OTEL_EBPF_KUBE_CLUSTER_NAME
           value: "minikube"
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "service.namespace=default,span.metrics.skip=true"
         - name: NODE_IP
           valueFrom:
             fieldRef:
